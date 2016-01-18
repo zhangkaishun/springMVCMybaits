@@ -6,7 +6,7 @@
     <properties resource="db.properties"></properties>
     <!-- 别名 -->
     <typeAliases>
-    <typeAlias alias="User" type="com.mvc.rest.user.dao.User"></typeAlias>
+    <typeAlias alias="Identify" type="com.siping.Identify.bean.Identify"></typeAlias>
     </typeAliases>
    <!--  <environments default="development">
     <environment id="development">
@@ -21,8 +21,8 @@
     </environments> -->
     
    
-<!--<mappers>
- <mapper resource="nankang/dao/UserMapper.xml"></mapper>
+<!-- <mappers>
+ <mapper resource="com/siping/Identify/dao/sql"></mapper>
 <mapper class="nankang.dao.UserInterfaceMapper"></mapper>
-</mappers>  -->   
+</mappers> -->    
     </configuration>
