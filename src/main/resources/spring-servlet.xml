@@ -1,0 +1,96 @@
+<beans xmlns="http://www.springframework.org/schema/beans"  
+ xmlns:context="http://www.springframework.org/schema/context"  
+ xmlns:p="http://www.springframework.org/schema/p"  
+ xmlns:mvc="http://www.springframework.org/schema/mvc"  
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+ xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+      http://www.springframework.org/schema/context  
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/mvc  
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">  
+   <!--  <bean id="config"  
+       class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+       <property name="locations">  
+           <list>  
+              <value>/WEB-INF/db.properties</value>  
+           </list>  
+       </property>  
+    </bean> -->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName">
+    <value>${db.driverClass}</value>
+    </property>
+    <property name="username">
+    <value>${db.username}</value>
+    </property>
+    <property name="password">
+    <value>${db.passworld}</value>
+    </property>
+    <property name="url">
+    <value>${db.url}</value>
+    </property>
+    </bean>
+     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource"><ref bean="dataSource"/></property>
+    </bean>
+     <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->  
+     <mvc:annotation-driven />  
+     <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->  
+     <context:component-scan base-package="com.mvc.rest" />  
+     <context:component-scan base-package="nankang.dao.service" />
+     <context:component-scan base-package="nankang.dao.controller" /> 
+     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->  
+     <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" /> -->  
+	<!-- 支持上传文件 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>  
+ <!-- <bean id = "transactionManager" class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name = "dataSource" ref = "datasource"></property>
+    </bean>
+     
+    事物的具体内容
+  
+<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+<tx:attributes>
+<tx:method name="add*" propagation="REQUIRED" />
+<tx:method name="append*" propagation="REQUIRED" />
+<tx:method name="insert*" propagation="REQUIRED" />
+<tx:method name="save*" propagation="REQUIRED" />
+<tx:method name="update*" propagation="REQUIRED" />
+<tx:method name="modify*" propagation="REQUIRED" />
+<tx:method name="edit*" propagation="REQUIRED" />
+<tx:method name="delete*" propagation="REQUIRED" />
+<tx:method name="remove*" propagation="REQUIRED" />
+<tx:method name="repair" propagation="REQUIRED" />
+<tx:method name="delAndRepair" propagation="REQUIRED" />
+ 
+ 
+<tx:method name="get*" propagation="SUPPORTS" />
+<tx:method name="find*" propagation="SUPPORTS" />
+<tx:method name="load*" propagation="SUPPORTS" />
+<tx:method name="search*" propagation="SUPPORTS" />
+<tx:method name="datagrid*" propagation="SUPPORTS" />
+ 
+ 
+<tx:method name="*" propagation="SUPPORTS" />
+</tx:attributes>
+</tx:advice>
+
+    定义一个切面,在定义的切面上加入事物
+  
+    <aop:config>
+<aop:pointcut id="transactionPointcut" expression="execution(* com.longhang.service..*Impl.*(..))" />
+<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
+</aop:config>
+  -->
+ <bean id="sqlSessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">          
+ <property name="dataSource" ref="dataSource" />    
+    <property name="configLocation"  value="classpath:config.xml">
+   </property>    
+   </bean> 
+   <!-- 自动扫描mapper -->
+   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+   <property name="basePackage" value="nankang.dao.mapper"/>  
+</bean> 
+</beans>  

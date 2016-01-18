@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    <configuration>
+    <!-- 引入这个资源 -->
+    <properties resource="db.properties"></properties>
+    <!-- 别名 -->
+    <typeAliases>
+    <typeAlias alias="User" type="com.mvc.rest.user.dao.User"></typeAlias>
+    </typeAliases>
+   <!--  <environments default="development">
+    <environment id="development">
+	<transactionManager type="jdbc"></transactionManager>    
+    <dataSource type="POOLED">
+    <property name="driver" value="${db.driverClass}"></property>
+    <property name="username" value="${db.username}"></property>
+    <property name="password" value="${db.passworld}"></property>
+    <property name="url" value="${db.url}"></property>
+    </dataSource>
+    </environment>
+    </environments> -->
+    
+   
+<!--<mappers>
+ <mapper resource="nankang/dao/UserMapper.xml"></mapper>
+<mapper class="nankang.dao.UserInterfaceMapper"></mapper>
+</mappers>  -->   
+    </configuration>
