@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="com.siping.Identify.dao.IdentifyDao">
-    
+<mapper namespace="com.siping.Identify.dao.IdentifyDao">
+    <sql id="identifyParameter">id,user_id,address</sql>
     <resultMap id="identifyResultMap" type="Identify">
-    <id column="id" property="id"></id>
-    <result column="user_id" property="userId"></result>
-    <result column="address" property="address"></result>
+        <id column="id" property="id"></id>
+        <result column="user_id" property="userId"></result>
+        <result column="address" property="address"></result>
     </resultMap>
-    
-    <select parameterType="java.lang.Integer" resultMap="identifyResultMap" id="getIdentifyByUserId">
-    	select * from identify where user_id=#{id}
+    <select id="getIdentifyByPage" resultMap="identifyResultMap" parameterType="hashmap"> select * from identify where address=#{address} limit #{pagination.pageStart},#{pagination.pageSize}
+    </select> 
+    <select resultMap="identifyResultMap" id="getAllIdentify"> select * from identify
     </select>
-    </mapper>
+    <select parameterType="java.lang.Integer" resultMap="identifyResultMap" id="getIdentifyByUserId">
+        select
+        <include refid="identifyParameter" />
+        from identify where user_id=#{id}
+    </select>
+    <update parameterType="Identify" id="updateIdentify"> update identify set user_id=#{userId},address=#{address} where id=#{id}
+    </update>
+    <insert id="addIdentify" parameterType="Identify" useGeneratedKeys="true" keyProperty="id"> insert into identify values(#{id},#{userId},#{address})
+    </insert>
+    <delete id="deleteIdentify" parameterType="int"> delete from identify where id=#{id}
+    </delete>
+</mapper>

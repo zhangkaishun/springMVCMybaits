@@ -19,6 +19,9 @@ public class Identify {
     public String getAddress() {
         return address;
     }
+    public void setAddress(String address) {
+        this.address = address;
+    }
     @Override
     public String toString() {
         return "Identify [id=" + id + ", userId=" + userId + ", address=" + address + "]";
