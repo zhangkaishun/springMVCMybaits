@@ -7,6 +7,7 @@
     <!-- 别名 -->
     <typeAliases>
     <typeAlias alias="Identify" type="com.siping.Identify.bean.Identify"></typeAlias>
+    <typeAlias alias="User" type="com.siping.user.bean.User"></typeAlias>
     </typeAliases>
    <!--  <environments default="development">
     <environment id="development">

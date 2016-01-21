@@ -1,6 +1,7 @@
 package com.siping.Identify.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +110,50 @@ public class IdentifyController {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+    @RequestMapping("get_identify_by_in")
+    public void getIdentifyByIn(HttpServletResponse response)
+    {
+        List<Integer> list=new ArrayList<Integer>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        List<Identify> identifys=identifyDao.getIdentifyByIn(list);
+        for(int i=0;i<identifys.size();i++)
+        {
+            System.out.println(identifys.get(i));
+        }
+        try {
+            response.getWriter().write("Success");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @RequestMapping("get_identify_by_complex")
+    public void getIdentifyByComplex(HttpServletResponse response)
+    {
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("address", "内江");
+        map.put("userId", "5");
+        map.put("order", "id");
+       List<Identify> identifys=identifyDao.getIdentifyByComplex(map);
+       if(!identifys.isEmpty()&&identifys.size()>0)
+        for(int i=0;i<identifys.size();i++)
+        {
+            System.out.println(identifys.get(i));
+        }
+    }
+    @RequestMapping("get_identify_by_choose")
+    public void getIdentifyByChoose(HttpServletResponse response)
+    {
+        Map<String ,Object> map=new HashMap<String,Object>();
+        map.put("address", "内江");
+        map.put("userId", 2);
+        List<Identify> identifys=identifyDao.getIdentifyChoose(map);
+        for(int i=0;i<identifys.size();i++)
+        {
+            System.out.println(identifys.get(i));
         }
     }
 }

@@ -8,19 +8,44 @@
         <result column="user_id" property="userId"></result>
         <result column="address" property="address"></result>
     </resultMap>
-    <select id="getIdentifyByPage" resultMap="identifyResultMap" parameterType="hashmap"> select * from identify where address=#{address} limit #{pagination.pageStart},#{pagination.pageSize}
-    </select> 
-    <select resultMap="identifyResultMap" id="getAllIdentify"> select * from identify
+    <select id="getIdentifyByComplex" parameterType="hashmap" resultMap="identifyResultMap">
+        select * from identify
+        <where>
+            <if test="address!=null and address!=''"> address like concat('%',#{address},'%')</if>
+            <if test="userId!=null and address!=''">or user_id=#{userId}</if>
+        </where>
+        order by ${order} desc
+    </select>
+    <select id="getIdentifyChoose" parameterType="hashmap" resultMap="identifyResultMap">
+        select * from identify
+        <where>
+            <choose>
+               <!--  只选择when中一个来执行 -->
+                <when test="userId!=null and userId!=''"> user_id=#{userId} 
+                </when>
+                <when test="address!=null and address!=''">and address=#{address}</when>
+                <otherwise></otherwise>
+            </choose>
+        </where>
+    </select>
+    <select id="getIdentifyByIn" parameterType="list" resultMap="identifyResultMap">
+        select * from identify where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")"> #{item} 
+        </foreach>
+    </select>
+    <select id="getIdentifyByPage" resultMap="identifyResultMap" parameterType="hashmap"> select * from identify where address=#{address} limit #{pagination.pageStart},#{pagination.pageSize} 
+    </select>
+    <select resultMap="identifyResultMap" id="getAllIdentify"> select * from identify 
     </select>
     <select parameterType="java.lang.Integer" resultMap="identifyResultMap" id="getIdentifyByUserId">
         select
         <include refid="identifyParameter" />
         from identify where user_id=#{id}
     </select>
-    <update parameterType="Identify" id="updateIdentify"> update identify set user_id=#{userId},address=#{address} where id=#{id}
+    <update parameterType="Identify" id="updateIdentify"> update identify set user_id=#{userId},address=#{address} where id=#{id} 
     </update>
-    <insert id="addIdentify" parameterType="Identify" useGeneratedKeys="true" keyProperty="id"> insert into identify values(#{id},#{userId},#{address})
+    <insert id="addIdentify" parameterType="Identify" useGeneratedKeys="true" keyProperty="id"> insert into identify values(#{id},#{userId},#{address}) 
     </insert>
-    <delete id="deleteIdentify" parameterType="int"> delete from identify where id=#{id}
-    </delete>
+    <delete id="deleteIdentify" parameterType="int"> delete from identify where id=#{id} 
+    </delete> 
 </mapper>

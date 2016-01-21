@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:mvc="http://www.springframework.org/schema/mvc" 
-       xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans  
       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
       http://www.springframework.org/schema/context  
@@ -16,17 +14,13 @@
     <!-- <bean id="config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="locations"> <list> <value>/WEB-INF/db.properties</value> </list> </property> </bean> -->
     <context:property-placeholder location="classpath:db.properties" />
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName">
-            <value>${db.driverClass}</value>
+        <property name="driverClassName" value="${db.driverClass}">
         </property>
-        <property name="username">
-            <value>${db.username}</value>
+        <property name="username" value="${db.username}">
         </property>
-        <property name="password">
-            <value>${db.passworld}</value>
+        <property name="password" value="${db.passworld}">
         </property>
-        <property name="url">
-            <value>${db.url}</value>
+        <property name="url" value="${db.url}">
         </property>
     </bean>
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -71,7 +65,11 @@
         </property>
     </bean>
     <!-- 自动扫描mapper java -->
+    <!-- 改用sqlSessionFactoryBeanName注入就没有问题(不要使用sqlSessionFactory属性注入，使用sqlSessionFactoryBeanName注入)，因为这时不会立即初始化sqlSessionFactory,传入的只是名字，非bean，所以不会引发提前初始化问题。 -->
+    <!-- 在spring里使用org.mybatis.spring.mapper.MapperScannerConfigurer 进行自动扫描的时候，设置了sqlSessionFactory 的话，可能会导致PropertyPlaceholderConfigurer失效，也就是用${jdbc.username}这样之类的表达式，将无法获取到properties文件里的内容。 导致这一原因是因为，MapperScannerConigurer实际是在解析加载bean定义阶段的，这个时候要是设置sqlSessionFactory的话，会导致提前初始化一些类，这个时候，PropertyPlaceholderConfigurer还没来得及替换定义中的变量，导致把表达式当作字符串复制了。 
+        但如果不设置sqlSessionFactory 属性的话， 就必须要保证sessionFactory在spring中名称一定要是sqlSessionFactory ， 否则就无法自动注入。又或者直接定义 MapperFactoryBean ，再或者放弃自动代理接口方式 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
         <property name="basePackage" value="com.siping.*.dao" />
     </bean>
 </beans>

@@ -10,6 +10,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.1.4.RELEASE</spring.version>
     </properties>
+    
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -139,6 +140,22 @@
     </dependencies>
     <build>
         <finalName>springmvc_mybatis_demo</finalName>
+         <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.java</include>
+                     <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </resource>
+        </resources> 
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
