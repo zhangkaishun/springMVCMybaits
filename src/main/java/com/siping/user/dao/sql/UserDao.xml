@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siping.user.dao.UserDao">
+    <sql id="userParameter">id,name,age</sql>
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="age" column="age"></result>
+        <association property="identify" column="identify_id" select="com.siping.Identify.dao.IdentifyDao.getIdentifyByIn"></association>
+        <!-- column="id" 代表把user的id为参数传到getIdentifyByUserId这个方法 -->
+        <collection property="identifys" javaType="ArrayList" ofType="Identify" column="id" select="com.siping.Identify.dao.IdentifyDao.getIdentifyByUserId">
+        </collection>
+    </resultMap>
+    <resultMap id="userResultMap2" type="User">
+        <id column="u_id" property="id"></id>
+        <result column="u_name" property="name"></result>
+        <result column="u_age" property="age"></result>
+        <collection property="identifys" ofType="Identify" javaType="ArrayList" resultMap="com.siping.Identify.dao.IdentifyDao.identifyResultMap"></collection>
+    </resultMap>
+    <select id="getByName" parameterType="string" resultMap="userResultMap">
+        select
+        <include refid="userParameter"></include>
+        from user where name=#{name}
+    </select>
+    <select id="getByNamee" parameterType="string" resultMap="userResultMap2"> select u.id u_id,u.name u_name,u.age u_age ,i.id,i.user_id,i.address from user u left join identify i on
+        u.id=i.user_id  where name=#{name}
+    </select>
+</mapper>
