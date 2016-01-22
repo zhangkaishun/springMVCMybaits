@@ -64,6 +64,7 @@
             </list>
         </property>
     </bean>
+    
     <mvc:resources location="/WEB-INF/css" mapping="/css/**"/>
     <mvc:resources location="/WEB-INF/jscript" mapping="/jscript/**"/>
     <!-- 自动扫描mapper java -->
