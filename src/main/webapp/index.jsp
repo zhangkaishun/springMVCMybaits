@@ -7,13 +7,11 @@
 <link rel="stylesheet" href="/css/bootstrap/bootstrap.css">
 <script type="text/javascript" src="/jscript/jquery/jquery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/jscript/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="/jscript/user.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
-<h2>hello</h2> 
-<a class="btn btn-default" href="#" role="button">Link</a>
-<button class="btn btn-default" type="submit">Button</button>
-<input class="btn btn-default" type="button" value="Input">
-<input class="btn btn-default" type="submit" value="Submit">
+<button type="button" class="btn btn-info" id="button">（一般信息）Info</button>
+<div></div>
 </body>
 </html>
